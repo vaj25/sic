@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block titulo %}Nuevo Usuario{% endblock %}
+{% block encabezado %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/form.css">
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+<section class="seccion">
+    <h1>Registrarse</h1>
+    {% endblock %}
+    {% block contenido %}
+    <form id='formulario' method='post' action='' autocomplete="on"> {% csrf_token %}
+        {{formulario}}
+        <p><input type='submit' value='Registrar'/></p>
+    </form>
+</section>
+{% endblock %}

@@ -1,0 +1,52 @@
+@import url(https://fonts.googleapis.com/css?family=Slabo+27px);
+
+div{
+    background: rgb(247, 247, 247) ;
+    padding: 5px ;
+    margin: auto;
+    width: 50% ;
+    border-radius: 5px ;
+    -moz-border-radius: 5px ;
+    -webkit-box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.1),	0px 0px 8px 5px rgba(208, 223, 226, 0.2) inset ;
+	   -moz-box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.1),	0px 0px 8px 5px rgba(208, 223, 226, 0.2) inset ;
+	        box-shadow: 0pt 2px 5px rgba(105, 108, 109,  0.1),	0px 0px 8px 5px rgba(208, 223, 226, 0.2) inset ;
+}
+
+.boton {
+    background: 000 ;
+    width: 5em ;
+}
+
+p {
+    font-family: 'Slabo 27px', serif ;
+    text-align: center ;
+    font-size: 1.5em ;
+    line-height: 1.5;
+}
+
+form {
+    width: 70% ;
+    margin: auto ;
+}
+
+label{
+    display: block ;
+    font-size: 1.25em ;
+}
+
+input {
+    background: 000 ;
+    line-height: 1.5;
+    margin: 0.5em ;
+    padding: 0.2em ;
+    height: 1.75em ;
+    width: 20em ;
+    font-size: 1.25em ;
+    border: 2px solid #CFCFC4 ;
+    -webkit-transition: border-color 0.4s, color 0.4s ;
+	transition: border-color 0.4s, color 0.4s ;
+}
+
+input:hover, :focus{
+	border-color: #37474f ;
+}

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block titulo %}Error de Acceso {% endblock %}
+{% block encabezado %}
+<h1>Error de Acceso</h1>
+{% endblock %}
+{% block contenido %}
+<div class="error">
+    <p> El usuario y la contraseña no coinciden o no existen </p>
+    <a href='/ingresar' class="link"><strong>Regresar</strong></a>
+</div>
+{% endblock %}

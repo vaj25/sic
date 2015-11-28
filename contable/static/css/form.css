@@ -1,0 +1,45 @@
+.boton {
+    cursor: pointer ;
+    width: 2em ;
+    float: left ;
+    margin: 5px ;
+    border: 1px solid;
+}
+
+form > ul > li {
+    list-style: none ;
+    padding: 5px ;
+}
+
+form > ul > li > input, select {
+    margin-left: 12px ;
+    padding: 2px ;
+    border: 2px solid #CFCFC4 ;
+    -webkit-transition: border-color 0.4s, color 0.4s ;
+	        transition: border-color 0.4s, color 0.4s ;
+}
+
+form > ul > li > label {
+    padding: 2px ;
+}
+
+form > ul > li > input:hover, :focus, select:hover, :focus, input:hover, :focus {
+    border-color: #37474f ;
+}
+
+input {
+    margin: 5px ;
+    padding: 5px ;
+    border: 2px solid #CFCFC4 ;
+    -webkit-transition: border-color 0.4s, color 0.4s ;
+	        transition: border-color 0.4s, color 0.4s ;
+}
+
+ul {
+    border: 1px solid ;
+    width: 30% ;
+}
+
+.seccion form {
+    margin: auto ;
+}

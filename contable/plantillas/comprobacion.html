@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/form.css">
+{% endblock %}
+
+{% block titulo %}
+    Balance de Comprobación 
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+{% block contenido %}
+    <table>
+        <tr>Clinica Psicologica Amaya</tr>
+        <tr>Estado de Comprobaciòn</tr>
+        <tr></tr>
+    </table>    
+    <table border="1" a>
+           <th>Nombre de la cuenta</th>
+           <th>Debe</th>
+           <th>Haber</th>
+        {% for t in transaccion %}
+            <tr>
+                {% for c in cuenta %}
+                   {% if c.id == t.cuenta_id %}
+                    <td>{{c.nom_cuenta}}</td>
+                   {% endif %}
+                {% endfor %}
+                {% if t.tipoMonto_id == 1 %}
+                    <td>{{t.monto}}</td>
+                    <td></td>
+                {% endif %}
+                {% if t.tipoMonto_id == 2 %}
+                    <td></td>
+                    <td>{{t.monto}}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>{{m1}}</strong></td>
+            <td><strong>{{m2}}</strong></td>
+        </tr>
+    </table>
+{% endblock %}

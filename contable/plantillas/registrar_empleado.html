@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block static %}
+    <link rel="stylesheet" href="../static/css/form.css">
+{% endblock %}
+
+{% block titulo %}
+Ingresar Empleado
+{% endblock %}
+ 
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+{% block contenido %}
+<form action="/empleado/" method="post">{% csrf_token %}
+<ul>
+
+{{ empForm.as_ul }}
+        
+  <li>  <label>Puesto:</label> 
+    <select name="Puesto"> 
+  
+  <option value="0">Seleccionar</option>
+  <option value="1">Psicologo</option>
+  <option value="2">Secretaria</option>
+  <option value="3">Limpieza</option>
+</select> </li>
+       
+   
+</ul>
+
+<input type="submit" name="submit" value="Registrar">
+</form>
+{% endblock %}

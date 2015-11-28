@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/form.css">
+{% endblock %}
+
+{% block titulo %}
+Eliminar Empleado
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+{% block contenido %}
+    <section class="seccion">
+        <form action="/eliminar/" method="post">{% csrf_token %}
+             <select name="eliminar" id="eliminar">
+                            <option value="">Seleccionar empleado</option>
+ {% for e in eliminar %}
+                 <option value="{{ e.id }}">{{e.nombre}}</option>
+                            {% endfor %}
+                        </select>
+            
+    <input type="submit" value="Eliminar">
+            
+            
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block titulo %}
+    Catalogo de Cuentas
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+{% block contenido %}
+
+<table border="1">
+    <tr>
+        <th>Nombre</th>
+        <th>Tipo Cuenta</th>
+        <th>Monto Cargo</th>
+        <th>Monto Abono</th>
+        <th>Saldo</th>
+    </tr>
+    {% for c in cuentas %}
+        <tr>
+            <td>{{c.nom_cuenta}}</td>
+            {% for t in tipoCuenta %}
+                {% if c.tipoCuenta_id == t.id %}
+                    <td>{{t.nom_Tipocuenta}}</td>
+                {% endif %}
+            {% endfor %}
+            <td>{{c.montoCargo}}</td>
+            <td>{{c.montoAbono}}</td>
+            <td>{{c.saldo}}</td>
+        </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

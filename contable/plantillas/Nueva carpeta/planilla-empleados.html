@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/tabla.css">
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+{% block contenido %}
+  <table border="1">
+    <tr>
+      <th class="nombre">Nombre</th>
+      <th class="nombre">Apellidos</th>
+      <th class="cargo">Cargo</th>
+      <th>Salario Base</th>
+      <th>Horas extra</th>
+      <th>Salario Devengado</th>
+      <th>ISS</th>
+      <th>AFP</th>
+      <th>Renta</th>
+      <th>Salario a pagar</th>
+    </tr>
+  </table>
+{% endblock %}

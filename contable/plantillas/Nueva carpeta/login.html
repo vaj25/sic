@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/form.css">
+{% endblock %}
+
+{% block contenido %}
+    <div>
+        <p>Bienvenido al sistema contable de</p>
+        <p>
+            <img src="../static/img/logo.png" alt="logo" id="logo">
+        </p>
+        <form action="">
+            <p>
+                <label for="user">UserName:</label>
+                <input id="user" name="user" type="text" required="required" placeholder="Admin" autofocus>
+            </p>
+            <p>
+                <label for="password">Contrase&ntilde;a:</label>
+                <input type="password" name="pass" id="pass" required="required" placeholder="GFP2hvlwRbJB">
+            </p>
+            <p><input type="submit" id="boton" value="Acceder"></p>
+        </form>
+    </div>
+{% endblock %}

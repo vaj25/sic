@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block titulo %}
+    Catalogo de Cuentas
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}T
+{% block contenido %}
+    <table border="1">
+        <tr>
+            <th>Nombre</th>
+            <th>Debe</th>
+            <th>Haber</th>
+        </tr>
+        {% for t in transaccion %}
+            <tr>
+                {% for c in cuenta %}
+                    {% if t.cuenta_id == c.id %}
+                        <td>{{c.nom_cuenta}}</td>
+                    {% endif %}
+                    {% if t.cuenta_id == c.id %}
+                    {% if t.tipoMonto_id == 1 %}
+                        <td>{{t.monto}}</td>
+                        <td></td>
+                    {% endif %}
+                    {% if t.tipoMonto_id == 2 %}
+                        <td></td>
+                        <td>{{t.monto}}</td>
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+        <tr>
+            <td>Utilidad</td>
+            {% if haber == 1 %}
+                <td></td>
+                <td>{{saldo}}</td>
+            {% endif %}
+            {% if haber == 2 %}
+                <td>{{saldo}}</td>
+                <td></td>
+            {% endif %}
+        </tr>
+    </table>
+{% endblock %}

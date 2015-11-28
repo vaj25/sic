@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block titulo %}
+Ingresa al Sistema
+{% endblock %}
+{% block encabezado %} Login
+{% endblock %}
+{% block static %}
+    <link rel="stylesheet" href="../static/css/login.css">
+{% endblock %}
+{% block contenido %}
+<div>
+    <p><strong>Bienvenido al sistema contable</strong></p>
+    <p>
+        <img src="../static/img/logo.png" alt="logo" id="logo">
+    </p>
+    <form id='formulario' method='post' action='' autocomplete="on">{% csrf_token %}
+    {{formulario}}
+        <input type='submit' value='Login' class="boton" />
+    </form>
+</div>
+{% endblock %}

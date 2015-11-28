@@ -1,0 +1,42 @@
+{% block static %}
+  <link rel="stylesheet" href="../static/css/menu.css">
+{% endblock %}
+<div>
+  <ul class="menu">
+    <li><a href="/inicio">Home</a></li>
+    <li><a href="#">Gesti&oacute;n de usuarios</a></li>
+    <li>
+      <a href="#">Gesti&oacute;n de Empleados</a>
+      <ul class="submenu">
+        <li><a href="/planilla/empleados">Planilla de empleados</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">Gesti&oacute;n de Cuentas</a>
+      <ul class="submenu">
+        <li><a href="/catalogo/cuentas">Catalogo de Cuentas</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">Transacciones</a>
+      <ul class="submenu">
+        <li><a href="#">Nueva transacci&oacute;n</a></li>
+        <li><a href="#">Libro diario</a></li>
+        <li><a href="#">Cerrar Periodo Contable</a></li>
+        <li><a href="#">Ajustes Contables</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#">Estados Financieros</a>
+      <ul class="submenu">
+        <li><a href="#">Balance de Comprobaci&oacute;n</a></li>
+        <li><a href="#">Estado de Resultado</a></li>
+        <li><a href="#">Estado de Cap&iacute;tal</a></li>
+        <li><a href="#">Balance General</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Contabilidad de Costos</a></li>
+    <li><a href="#">Acerca de</a></li>
+    <li><a href="#">Logout</a></li>
+  </ul>
+</div>

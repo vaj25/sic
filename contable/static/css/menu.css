@@ -1,0 +1,65 @@
+@import url(https://fonts.googleapis.com/css?family=Slabo+27px);
+
+.menu, .menu ul{
+    list-style: none ;
+}
+
+.menu{
+  display: block ;
+	position: fixed;
+	z-index: 1000 ;
+	top: 0 ;
+	width: 95.3% ;
+  background: #59afad;
+	text-align: left ;
+	padding: 0 2em ;
+	margin: 0 ;
+  font-family: 'Slabo 27px', serif ;
+	text-transform: capitalize ;
+  border-bottom: 1px solid black ;
+}
+
+.menu > li{
+    display: inline-block ;
+	margin: 0 0.5em ;
+	position: relative ;
+}
+
+.menu > li > a,
+.submenu > li > a{
+    line-height: 2em ;
+	padding: 0 0.1em ;
+	font-size: 1.0em ;
+	display: block ;
+	color: #fff ;
+    text-decoration: none ;
+            transition: color 0.2s ease-in-out ;
+    -webkit-transition: color 0.2s ease-in-out ;
+}
+
+.menu > li > a:hover,
+.menu > li > a:active,
+.submenu > li > a:hover,
+.submenu > li > a:active{
+    color: #5c683d ;
+    text-decoration: none ;
+}
+
+.submenu{
+    position: absolute ;
+	display: none ;
+    background: #59afad ;
+    opacity: 0 ;
+	padding: 0 ;
+    width: 200px ;
+    border: 1px solid black ;
+    border-top: 0 ;
+	text-align: left ;
+}
+
+.menu li:hover > ul,
+.submenu:hover{
+    z-index: 1000 ;
+    display: block ;
+    opacity: inherit ;
+}
