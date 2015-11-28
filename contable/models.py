@@ -41,7 +41,7 @@ class Transaccion(models.Model):
 class EstadoPeriodo(models.Model):
     periodo = models.CharField(max_length=20)
     cierre = models.BooleanField(default='False')
-    
+    ajuste = models.BooleanField(default='False')
     
 class Transacciones(models.Model):
     cuenta = models.ForeignKey(Cuenta)
@@ -50,7 +50,7 @@ class Transacciones(models.Model):
     abono=models.FloatField()
     fecha=models.CharField(max_length=20)
     
-class comprobacion(models.Model):
+class Comprobacion(models.Model):
     estadoPeriodo = models.ForeignKey(EstadoPeriodo)
     nombreCuenta=models.CharField(max_length=30)
     debe=models.FloatField()

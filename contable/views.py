@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from contable.forms import UserCreationForm,EmpleadoForm
-from contable.models import Empleado,Puesto,Cuenta,TipoCuenta,Transaccion, TipoMonto, Transacciones
+from contable.models import Empleado,Puesto,Cuenta,TipoCuenta,Transaccion, TipoMonto, Transacciones, EstadoPeriodo, Comprobacion
+
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -224,22 +225,44 @@ def comprobacion(request):
     trans = Transaccion.objects.all()
     monto1 = 0
     monto2 = 0
+    per=EstadoPeriodo()
+    per.periodo=time.strftime("%x")
+    per.cierre=False
+    per.ajuste=False
+    per.save()
     for t in trans:
         t.delete()
     for cuenta in c:
+        comp=Comprobacion()
         tran=Transaccion()
         monto=float(cuenta.saldo)
         if monto<0:
             tran.monto=monto*(-1)
             tran.tipoMonto=tm2
             tran.cuenta=cuenta
-            monto2 = monto2 + monto*(-1)
+            monto=monto*-1
+            monto2 = monto2 + monto
+            comp.nombreCuenta=cuenta.nom_cuenta
+            comp.debe=monto
+            comp.haber=0
         else:
             tran.monto=monto
             tran.cuenta=cuenta
             tran.tipoMonto=tm1
             monto1 = monto1 + monto
+            comp.nombreCuenta=cuenta.nom_cuenta
+            comp.haber=monto
+            comp.debe=0
         tran.save()
+        comp.estadoPeriodo_id=per.id
+        comprobando=Comprobacion.objects.all()       
+        for co in comprobando:
+            if  comp.nombreCuenta == co.nombreCuenta:
+                comp.estadoPeriodo_id=co.estadoPeriodo_id
+                comp.debe=co.debe
+                comp.haber=co.haber
+                comp.id=co.id     
+        comp.save()
     return render(request, 'comprobacion.html', {'transaccion':trans,'cuenta':c, 'm1': monto1, 'm2': monto2})
 
 @login_required(login_url='/ingresar')
@@ -272,14 +295,14 @@ def capital(request):
         capContable=capContable+cuenta.saldo
     if capContable<0:
         capContable=capContable*-1
-    
+
     if haber==1:
             capContable=capContable + util
             haberc = 1
     elif haber==2:
             capContable=capContable - util
-            haberc = 2    
-           
+            haberc = 2
+
     return render(request,'capital.html',{'transaccion':t,'cuenta':c, 'util':util,'haber':haber,'haberc':haberc,'cap':capContable})
 
 @login_required(login_url='/ingresar')
@@ -301,5 +324,44 @@ def general(request):
 
     return render(request,'general.html',{'cap':capContable,'activos':c1,'pasivos':c2,'cargo':monto1,'abono':monto2,'transaccion':t,'haber':haber})
 
+@login_required(login_url='/ingresar')
 def libroDiario(request):
     return render(request, 'libroDiario.html', {'transaccion':Transacciones.objects.all(), 'cuenta':Cuenta.objects.all()})
+
+@login_required(login_url='/ingresar')
+def ajustes(request):
+    comp=Comprobacion.objects.all()
+    monto1=0
+    monto2=0
+    for c in comp:
+        monto1=monto1+c.debe
+        monto2=monto2+c.haber
+        
+    c=Cuenta.objects.order_by('tipoCuenta_id')
+    tm1=TipoMonto.objects.get(id=1)
+    tm2=TipoMonto.objects.get(id=2)
+    trans = Transaccion.objects.all()
+    monto3 = 0
+    monto4 = 0
+    for t in trans:
+        t.delete()
+    for cuenta in c:
+        tran=Transaccion()
+        monto=float(cuenta.saldo)
+        if monto<0:
+            tran.monto=monto*(-1)
+            tran.tipoMonto=tm2
+            tran.cuenta=cuenta
+            monto4 = monto4 + monto*(-1)
+        else:
+            tran.monto=monto
+            tran.cuenta=cuenta
+            tran.tipoMonto=tm1
+            monto3 = monto3 + monto
+        tran.save()
+    return render(request,'ajustes.html', {'transaccion':trans,'cuenta':c, 'comprobacion':comp,'cuenta':c, 'm1': monto1, 'm2': monto2,'m3':monto3,'m4':monto4,})
+
+
+@login_required(login_url='/ingresar')
+def acercaDe(request):
+    return render_to_response('acercaDe.html')

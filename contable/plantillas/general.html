@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/tabla.css">
+{% endblock %}
+
 {% block titulo %}
     Balance General
 {% endblock %}
@@ -7,7 +12,8 @@
   {% include 'menu.html' %}
 {% endblock %}T
 {% block contenido %}
-    <table border="1">
+    <table>
+       <caption>Balance General</caption>
         <tr>
             <th>Nombre</th>
             <th>Debe</th>

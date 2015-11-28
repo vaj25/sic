@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/tabla.css">
+{% endblock %}
+
+{% block titulo %}
+Planilla Empleados
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+{% block contenido %}
+  <table>
+    <caption>Hoja de trabajo</caption>
+    <tr>
+      <th>Cuenta</th>
+      <th colspan="2">Balance de Comprobacion</th>
+      <th colspan="2">Ajustes</th>
+      <th colspan="2">Balance de Comprobacion</th>
+      <th colspan="2">Estado Resultado</th>
+      <th colspan="2">Estado de Capital</th>
+      <th colspan="2">Balance General</th>
+    </tr>
+     <tr>
+         <th></th>
+         <th>Debe</th>
+         <th>Haber</th>
+         <th>Debe</th>
+         <th>Haber</th>
+         <th>Debe</th>
+         <th>Haber</th>
+         <th>Debe</th>
+         <th>Haber</th>
+         <th>Debe</th>
+         <th>Haber</th>
+         <th>Debe</th>
+         <th>Haber</th>
+     </tr>
+      {% for c in comprobacion %}
+            <tr>
+                <td>{{c.nombreCuenta}}</td>
+                    <td>{{c.haber}}</td>
+                    <td>{{c.debe}}</td>
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                 {% endfor %}
+              </tr>
+
+      <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>{{m1}}</strong></td>
+            <td><strong>{{m2}}</strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+            <td><strong></strong></td>
+        </tr>
+      {% for t in transaccion %}
+            <tr>
+                {% for c in cuenta %}
+                   {% if c.id == t.cuenta_id %}
+                    <td>{{c.nom_cuenta}}</td>
+                   {% endif %}
+                {% endfor %}
+                {% if t.tipoMonto_id == 1 %}
+                    <td>{{t.monto}}</td>
+                    <td></td>
+                {% endif %}
+                {% if t.tipoMonto_id == 2 %}
+                    <td></td>
+                    <td>{{t.monto}}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>{{m3}}</strong></td>
+            <td><strong>{{m4}}</strong></td>
+  </table>
+<br><br><br>
+<form action="" method="POST">{% csrf_token %}
+
+</form>
+{% endblock %}

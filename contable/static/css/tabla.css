@@ -1,7 +1,22 @@
-.nombre{
-    width: 250px ;
+table{
+    border: 1px solid #000 ;
 }
 
-.cargo{
-    width: 100px ;
+td {
+    border: 1px solid #000 ;
+    padding-left: 6px ;
+}
+
+th {
+    border: 2px solid #000 ;
+}
+
+caption {
+    font-size: 1em ;
+    color: #E30022 ;
+    text-transform: uppercase ;
+    letter-spacing: 1px;
+    font-weight: bold ;
+    padding: 5px ;
+    border: 2px solid #000 ;
 }

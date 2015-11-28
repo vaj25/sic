@@ -1,4 +1,9 @@
 {% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/tabla.css">
+{% endblock %}
+
 {% block titulo %}
     Catalogo de Cuentas
 {% endblock %}
@@ -8,7 +13,7 @@
 {% endblock %}
 {% block contenido %}
 
-<table border="1">
+<table>
     <tr>
         <th>Nombre</th>
         <th>Tipo Cuenta</th>
