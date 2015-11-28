@@ -2,16 +2,16 @@ from django.shortcuts import render
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from contable.forms import UserCreationForm,EmpleadoForm
-from contable.models import Empleado,Puesto,Cuenta,TipoCuenta,Transaccion, TipoMonto
+from contable.models import Empleado,Puesto,Cuenta,TipoCuenta,Transaccion, TipoMonto, Transacciones
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 import time
-util=''
-haber=''
-capContable=''
+util=0
+haber=0
+capContable=0
 # Create your views here.
 @login_required(login_url='/ingresar')
 def inicio(request):
@@ -162,12 +162,18 @@ def transaccion(request):
                 else:
                     montoCa=montoCa+mont
             l=l+1
+        t=Transacciones.objects.all()
+        num=0
+        for h in t:
+            num = int(h.numero)
+        num = num + 1
         if montoCa==montoAb: #partida doble
             for j in range(count):
                 var1='cuenta'+str(i)
                 cuent=int(request.POST[var1])
                 if cuent!=0:
                     c=Cuenta()
+                    tr = Transacciones()
                     var1='cuenta'+str(i)
                     var2='monto'+str(i)
                     monto=float(request.POST[var2])
@@ -175,15 +181,21 @@ def transaccion(request):
                     tm1=TipoMonto.objects.get(id=1)
                     tm2=TipoMonto.objects.get(id=2)
                     #t.monto=monto
-                    #t.cuenta=c
+                    tr.cuenta=c
+                    tr.numero=num
+                    tr.fecha=time.strftime("%x")
                     if i%2==0:
                         #t.tipoMonto=tm2  #es abono
                         c.montoAbono=c.montoAbono+monto
+                        tr.abono=monto
+                        tr.cargo=0
                     else:
-                        #t.tipoMonto=tm1   #es cargo
+                        tr.cargo=monto   #es cargo
+                        tr.abono=0
                         c.montoCargo=c.montoCargo+monto
                     c.saldo = c.montoCargo - c.montoAbono
                     c.save()
+                    tr.save()
                 i=i+1
         else:
             m = "No se cumple partida doble"
@@ -247,29 +259,35 @@ def resultado(request):
     return render(request,'resultado.html',{'transaccion':t,'cuenta':c, 'saldo' : util, 'haber' : haber})
 
 @login_required(login_url='/ingresar')
-@login_required(login_url='/resultado')
 def capital(request):
     global util
     global haber
     global capContable
     capContable=0.0
+    if util == 0:
+        return HttpResponseRedirect('resultado')
     c=Cuenta.objects.filter(tipoCuenta=3)
     t=Transaccion.objects.all()
     for cuenta in c :
         capContable=capContable+cuenta.saldo
-    if capContable < 0 + haber==1:
-        capContable = capContable * -1
-        capContable=capContable + util
-        haberc = 1
-    elif capContable > 0 + haber==2:
-        capContable=capContable - util
-        haberc = 2
+    if capContable<0:
+        capContable=capContable*-1
+    
+    if haber==1:
+            capContable=capContable + util
+            haberc = 1
+    elif haber==2:
+            capContable=capContable - util
+            haberc = 2    
+           
     return render(request,'capital.html',{'transaccion':t,'cuenta':c, 'util':util,'haber':haber,'haberc':haberc,'cap':capContable})
 
 @login_required(login_url='/ingresar')
 def general(request):
     global capContable
     global haber
+    if capContable == 0:
+        return HttpResponseRedirect('/capital')
     monto1=0
     monto2=0
     t=Transaccion.objects.all()
@@ -282,3 +300,6 @@ def general(request):
     monto2=monto2+capContable
 
     return render(request,'general.html',{'cap':capContable,'activos':c1,'pasivos':c2,'cargo':monto1,'abono':monto2,'transaccion':t,'haber':haber})
+
+def libroDiario(request):
+    return render(request, 'libroDiario.html', {'transaccion':Transacciones.objects.all(), 'cuenta':Cuenta.objects.all()})

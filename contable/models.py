@@ -38,9 +38,25 @@ class Transaccion(models.Model):
     cuenta = models.ForeignKey(Cuenta)
     tipoMonto =  models.ForeignKey(TipoMonto)
         
-class EstadosCuentas(models.Model):
+class EstadoPeriodo(models.Model):
     periodo = models.CharField(max_length=20)
     cierre = models.BooleanField(default='False')
+    
+    
+class Transacciones(models.Model):
     cuenta = models.ForeignKey(Cuenta)
-    tipoMonto = models.ForeignKey(TipoMonto)
+    numero=models.IntegerField()
+    cargo=models.FloatField()
+    abono=models.FloatField()
+    fecha=models.CharField(max_length=20)
+    
+class comprobacion(models.Model):
+    estadoPeriodo = models.ForeignKey(EstadoPeriodo)
+    nombreCuenta=models.CharField(max_length=30)
+    debe=models.FloatField()
+    haber=models.FloatField()
+    
+    
+    
+
     

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/tabla.css">
+{% endblock %}
+
+{% block titulo %}
+Libro Diario
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+{% block contenido %}
+    <table border="1">
+        <tr>
+            <th>N&uacute;mero</th>
+            <th>Fecha</th>
+            <th>Cuenta</th>
+            <th>Cargo</th>
+            <th>Abono</th>
+        </tr>
+        {% for t in transaccion %}
+            <tr>
+                <td>{{t.numero}}</td>
+                <td>{{t.fecha}}</td>
+                {% for c in cuenta %}
+                    {% if c.id == t.cuenta_id  %}
+                        <td>{{c.nom_cuenta}}</td>
+                    {% endif %}
+                {% endfor %}
+                <td>{{t.cargo}}</td>
+                <td>{{t.abono}}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
