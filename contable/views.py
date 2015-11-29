@@ -9,14 +9,17 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
+from django.contrib.auth.models import User , Group, Permission
 import time
 util=0
 haber=0
 capContable=0
+user = User()
 # Create your views here.
 @login_required(login_url='/ingresar')
 def inicio(request):
-    return render_to_response('index.html')
+    global user
+    return render(request,'index.html', {'usuario' : user.get_username()})
 
 @login_required(login_url='/ingresar')
 def planillaEmpleados(request):
@@ -44,6 +47,7 @@ def catalogoCuentas(request):
     return render(request, 'catalogo-cuentas.html', {'cuentas':Cuenta.objects.order_by('tipoCuenta_id'), 'tipoCuenta':TipoCuenta.objects.all()})
 
 def ingresar(request):
+    global user
     if not request.user.is_anonymous():
         return HttpResponseRedirect('../index')
     if request.method=='POST':
@@ -51,6 +55,7 @@ def ingresar(request):
         if formulario.is_valid:
             usuario = request.POST['username']
             clave = request.POST['password']
+            user = User.objects.get(username = usuario)
             acceso = authenticate(username=usuario, password=clave)
             if acceso is not None:
                 if acceso.is_active:
@@ -67,17 +72,18 @@ def ingresar(request):
 
 @login_required(login_url='/ingresar')
 def nuevo_usuario(request):
-	#if not request.user.is_anonymous():
-		#return HttpResponseRedirect('../index')
-	if request.method=='POST':
-		formulario=UserCreationForm(request.POST)
+    global user
+    if user.has_perm('contable.add_empleado') == False:
+        return render(request ,'error.html',{'mensaje':'No posee permisos'})
 
-		if formulario.is_valid():# and (clave1 == clave2):
-			formulario.save()
-			return HttpResponseRedirect('/index')
-	else:
-		formulario=UserCreationForm()
-	return render_to_response('nuevousuario.html',{'formulario':formulario}, context_instance=RequestContext(request))
+    if request.method=='POST':
+        formulario=UserCreationForm(request.POST)
+        if formulario.is_valid():# and (clave1 == clave2):
+            formulario.save()
+            return HttpResponseRedirect('/index')
+    else:
+        formulario=UserCreationForm()
+    return render_to_response('nuevousuario.html',{'formulario':formulario}, context_instance=RequestContext(request))
 
 
 @login_required(login_url='/ingresar')
@@ -87,6 +93,10 @@ def cerrar(request):
 
 @login_required(login_url='/ingresar')
 def ingresar_empleado(request):
+    global user
+    if user.has_perm('contable.add_empleado') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+
     if request.POST:
         empForm=EmpleadoForm(request.POST)
         if empForm.is_valid():
@@ -119,6 +129,10 @@ def ingresar_empleado(request):
 
 @login_required(login_url='/ingresar')
 def ingresar_cuenta(request):
+    global user
+    if user.has_perm('contable.add_cuenta') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+
     if request.method == 'GET':
         return render(request ,'registrar_cuenta.html', {'tipo':TipoCuenta.objects.all()})
     if request.POST:
@@ -140,6 +154,10 @@ def ingresar_cuenta(request):
 
 @login_required(login_url='/ingresar')
 def transaccion(request):
+    global user
+    if user.has_perm('contable.add_transaccion') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+
     if request.method == "GET":
         return render(request ,'form-transaccion.html', {'cuentas':Cuenta.objects.all()})
 
@@ -208,6 +226,10 @@ def transaccion(request):
 
 @login_required(login_url='/ingresar')
 def eliminar_emp(request):
+    global user
+    if user.has_perm('contable.delete_empleado') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+
     if request.method == 'GET':
         return render(request ,'eliminar_empleado.html', {'eliminar':Empleado.objects.all()})
     if request.method=="POST":
@@ -219,6 +241,10 @@ def eliminar_emp(request):
 
 @login_required(login_url='/ingresar')
 def comprobacion(request):
+    global user
+    if user.has_perm('contable.add_comprobacion') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+
     c=Cuenta.objects.order_by('tipoCuenta_id')
     tm1=TipoMonto.objects.get(id=1)
     tm2=TipoMonto.objects.get(id=2)
@@ -255,13 +281,13 @@ def comprobacion(request):
             comp.debe=0
         tran.save()
         comp.estadoPeriodo_id=per.id
-        comprobando=Comprobacion.objects.all()       
+        comprobando=Comprobacion.objects.all()
         for co in comprobando:
             if  comp.nombreCuenta == co.nombreCuenta:
                 comp.estadoPeriodo_id=co.estadoPeriodo_id
                 comp.debe=co.debe
                 comp.haber=co.haber
-                comp.id=co.id     
+                comp.id=co.id
         comp.save()
     return render(request, 'comprobacion.html', {'transaccion':trans,'cuenta':c, 'm1': monto1, 'm2': monto2})
 
@@ -330,13 +356,16 @@ def libroDiario(request):
 
 @login_required(login_url='/ingresar')
 def ajustes(request):
+    global user
+    if user.has_perm('contable.add_estadoperiodo') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
     comp=Comprobacion.objects.all()
     monto1=0
     monto2=0
     for c in comp:
         monto1=monto1+c.debe
         monto2=monto2+c.haber
-        
+
     c=Cuenta.objects.order_by('tipoCuenta_id')
     tm1=TipoMonto.objects.get(id=1)
     tm2=TipoMonto.objects.get(id=2)
