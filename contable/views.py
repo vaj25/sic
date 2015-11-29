@@ -356,9 +356,9 @@ def libroDiario(request):
 
 @login_required(login_url='/ingresar')
 def ajustes(request):
-    global user
-    if user.has_perm('contable.add_estadoperiodo') == False:
-        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+    #global user
+    #if user.has_perm('contable.add_estadoperiodo') == False:
+        #return render(request ,'error.html',{'mensaje':"No tiene permisos"})
     comp=Comprobacion.objects.all()
     monto1=0
     monto2=0
@@ -388,7 +388,43 @@ def ajustes(request):
             tran.tipoMonto=tm1
             monto3 = monto3 + monto
         tran.save()
-    return render(request,'ajustes.html', {'transaccion':trans,'cuenta':c, 'comprobacion':comp,'cuenta':c, 'm1': monto1, 'm2': monto2,'m3':monto3,'m4':monto4,})
+    #estado de resultados
+    resultados=Cuenta.objects.filter(tipoCuenta=4)
+    utilidad = 0
+    for cuenta in resultados :
+        utilidad = utilidad + cuenta.saldo
+    if utilidad < 0:
+        utilidad = utilidad * -1
+        habere = 1
+    else:
+        habere = 2
+    #estado de capital    
+    global capContable
+    capContable=0.0
+    capitales=Cuenta.objects.filter(tipoCuenta=3)
+    for cuenta in capitales :
+        capContable=capContable+cuenta.saldo
+    if capContable<0:
+        capContable=capContable*-1
+
+    if habere==1:
+            capContable=capContable + utilidad
+            haberca = 1
+    elif habere==2:
+            capContable=capContable - utilidad
+            haberca = 2
+    #balance general
+    monto5=0
+    monto6=0
+    c1=Cuenta.objects.filter(tipoCuenta=1)
+    c2=Cuenta.objects.filter(tipoCuenta=2)
+    for cuenta1 in c1:
+        monto5=monto5+cuenta1.saldo
+    for cuenta2 in c2:
+        monto6=monto6-cuenta2.saldo
+    monto6=monto6+capContable
+        
+    return render(request,'ajustes.html', {'transaccion':trans,'cuenta':c, 'comprobacion':comp,'cuenta':c, 'm1': monto1, 'm2': monto2,'m3':monto3,'m4':monto4,'resultados':resultados,'saldo' : utilidad,'habere' :habere, 'capitales':capitales,'haberca':haberca,'cap':capContable,'activos':c1,'pasivos':c2,'cargo':monto5,'abono':monto6,})
 
 
 @login_required(login_url='/ingresar')

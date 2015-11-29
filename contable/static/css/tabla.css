@@ -5,10 +5,12 @@ table{
 td {
     border: 1px solid #000 ;
     padding-left: 6px ;
+    padding: 2px ;
 }
 
 th {
     border: 2px solid #000 ;
+    padding: 2px ;
 }
 
 caption {
