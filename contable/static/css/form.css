@@ -1,26 +1,41 @@
 .boton {
+    position: relative ;
     cursor: pointer ;
     width: 2em ;
     float: left ;
     margin: 5px ;
-    border: 1px solid;
+}
+
+.seccion form {
+    margin: auto ;
+}
+
+form > ul {
+    border: 1px solid ;
+    width: 30% ;
+    margin: auto ;
+    padding-top: 5px ;
+    padding-bottom: 5px ; 
 }
 
 form > ul > li {
+    font-size: 1em ;
     list-style: none ;
     padding: 5px ;
 }
 
 form > ul > li > input, select {
-    margin-left: 12px ;
-    padding: 2px ;
+    margin-left: 25px ;
+    padding: 5px ;
     border: 2px solid #CFCFC4 ;
     -webkit-transition: border-color 0.4s, color 0.4s ;
 	        transition: border-color 0.4s, color 0.4s ;
 }
 
 form > ul > li > label {
+    display: block ;
     padding: 2px ;
+    text-transform: uppercase;
 }
 
 form > ul > li > input:hover, :focus, select:hover, :focus, input:hover, :focus {
@@ -29,17 +44,9 @@ form > ul > li > input:hover, :focus, select:hover, :focus, input:hover, :focus 
 
 input {
     margin: 5px ;
+    margin-left: 15px ;
     padding: 5px ;
     border: 2px solid #CFCFC4 ;
     -webkit-transition: border-color 0.4s, color 0.4s ;
 	        transition: border-color 0.4s, color 0.4s ;
-}
-
-ul {
-    border: 1px solid ;
-    width: 30% ;
-}
-
-.seccion form {
-    margin: auto ;
 }

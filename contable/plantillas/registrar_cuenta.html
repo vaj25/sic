@@ -12,25 +12,26 @@ Registrar Cuenta
 {% endblock %}
 {% block contenido %}
 
-<form action="/cuenta/" method="post">{% csrf_token %}
-<ul>
+    <form action="/cuenta/" method="post">{% csrf_token %}
+        <ul>
+            <li>
+                <label>Nombre de la Cuenta:</label>
+                <input name="nom_cuenta" type="text" id="nom_cuenta" autofocus>
+            </li>
 
-    <li>
-        <label>Nombre de la Cuenta:</label>
-        <input name="nom_cuenta" type="text" id="nom_cuenta">
-    </li>
-    
-    <li><label>Tipo Cuenta:</label> 
-    <select name="Cuenta">
-      <option value="0">Seleccionar</option>
-        {% for t in tipo %}
-                 <option value="{{ t.id }}">{{t.nom_Tipocuenta}}</option>
-                            {% endfor %}
-      
-    </select> </li>
+            <li>
+                <label>Tipo Cuenta:</label> 
+                <select name="Cuenta">
+                  <option value="0">Seleccionar</option>
+                    {% for t in tipo %}
+                        <option value="{{ t.id }}">{{t.nom_Tipocuenta}}</option>
+                    {% endfor %}
+                </select> 
+            </li>
+            <li>
+                <input type="submit" name="submit" value="Registrar">
+            </li>
+        </ul>
+    </form>
 
-</ul>
-
-<input type="submit" name="submit" value="Registrar">
-</form>
 {% endblock %}

@@ -22,3 +22,7 @@ caption {
     padding: 5px ;
     border: 2px solid #000 ;
 }
+
+.empleado {
+    cursor: default ;
+}

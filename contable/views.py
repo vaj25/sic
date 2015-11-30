@@ -74,7 +74,7 @@ def ingresar(request):
 def nuevo_usuario(request):
     global user
     if user.has_perm('contable.add_empleado') == False:
-        return render(request ,'error.html',{'mensaje':'No posee permisos'})
+        return render(request ,'error.html',{'mensaje':'No posee permisos', 'link':'/index'})
 
     if request.method=='POST':
         formulario=UserCreationForm(request.POST)
@@ -95,7 +95,7 @@ def cerrar(request):
 def ingresar_empleado(request):
     global user
     if user.has_perm('contable.add_empleado') == False:
-        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link':'/index'})
 
     if request.POST:
         empForm=EmpleadoForm(request.POST)
@@ -131,7 +131,7 @@ def ingresar_empleado(request):
 def ingresar_cuenta(request):
     global user
     if user.has_perm('contable.add_cuenta') == False:
-        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link':'/index'})
 
     if request.method == 'GET':
         return render(request ,'registrar_cuenta.html', {'tipo':TipoCuenta.objects.all()})
@@ -156,7 +156,7 @@ def ingresar_cuenta(request):
 def transaccion(request):
     global user
     if user.has_perm('contable.add_transaccion') == False:
-        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link':'/index'})
 
     if request.method == "GET":
         return render(request ,'form-transaccion.html', {'cuentas':Cuenta.objects.all()})
@@ -228,7 +228,7 @@ def transaccion(request):
 def eliminar_emp(request):
     global user
     if user.has_perm('contable.delete_empleado') == False:
-        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link':'/index'})
 
     if request.method == 'GET':
         return render(request ,'eliminar_empleado.html', {'eliminar':Empleado.objects.all()})
@@ -243,7 +243,7 @@ def eliminar_emp(request):
 def comprobacion(request):
     global user
     if user.has_perm('contable.add_comprobacion') == False:
-        return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link':'/index'})
 
     c=Cuenta.objects.order_by('tipoCuenta_id')
     tm1=TipoMonto.objects.get(id=1)
@@ -398,7 +398,7 @@ def ajustes(request):
         habere = 1
     else:
         habere = 2
-    #estado de capital    
+    #estado de capital
     global capContable
     capContable=0.0
     capitales=Cuenta.objects.filter(tipoCuenta=3)
@@ -423,7 +423,7 @@ def ajustes(request):
     for cuenta2 in c2:
         monto6=monto6-cuenta2.saldo
     monto6=monto6+capContable
-        
+
     return render(request,'ajustes.html', {'transaccion':trans,'cuenta':c, 'comprobacion':comp,'cuenta':c, 'm1': monto1, 'm2': monto2,'m3':monto3,'m4':monto4,'resultados':resultados,'saldo' : utilidad,'habere' :habere, 'capitales':capitales,'haberca':haberca,'cap':capContable,'activos':c1,'pasivos':c2,'cargo':monto5,'abono':monto6,})
 
 

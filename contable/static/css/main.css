@@ -100,7 +100,7 @@ textarea {
 
 
 
-
+@import url(https://fonts.googleapis.com/css?family=Slabo+27px);
 
 body {
     margin-top: 3% ;
@@ -117,6 +117,7 @@ table {
     width: 90% ;
     margin: auto ;
     padding: 5px ;
+    padding-top: 2% ;
 }
 
 .form {
@@ -132,7 +133,6 @@ table {
 
 .fila {
     padding: 5px ;
-    
 }
 
 .fila-remove {

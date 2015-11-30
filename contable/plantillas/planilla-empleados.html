@@ -2,6 +2,7 @@
 
 {% block static %}
     <link rel="stylesheet" href="../static/css/tabla.css">
+    <link rel="stylesheet" href="../static/css/form.css">
 {% endblock %}
 
 {% block titulo %}
@@ -13,46 +14,56 @@ Planilla Empleados
 {% endblock %}
 
 {% block contenido %}
-  <table>
-    <tr>
-      <th>Nombre</th>
-      <th>Apellidos</th>
-      <th>Cargo</th>
-      <th>Salario Base</th>
-      <th>Horas extra</th>
-      <th>Salario Devengado</th>
-      <th>ISSS</th>
-      <th>AFP</th>
-      <th>Renta</th>
-      <th>Salario a pagar</th>
-    </tr>
-    {%for e in empleado %}
-    <tr id="{{e.id}}" onclick="obtenerEmpleado({{e.id}})" >
-        <td id="nombres">{{ e.nombre }}</td>
-        <td id="apellidos">{{ e.apellido }}</td>
-        {% for p in puesto %}
-            {% if p.id == e.puesto_id %}
-                <td id="puesto">{{ p.nom_puesto }}</td>
-                <td id="salbase">{{ p.salBase }}</td>
-                <td id="he">{{ e.horasExtras }}</td>      
-                <td id="saldev">{{ e.salDevengado }}</td>
-            {% endif %}
+    <table>
+        <tr>
+          <th>Nombre</th>
+          <th>Apellidos</th>
+          <th>Cargo</th>
+          <th>Salario Base</th>
+          <th>Horas extra</th>
+          <th>Salario Devengado</th>
+          <th>ISSS</th>
+          <th>AFP</th>
+          <th>Renta</th>
+          <th>Salario a pagar</th>
+        </tr>
+        {%for e in empleado %}
+        <tr id="{{e.id}}" onclick="obtenerEmpleado({{e.id}})" class="empleado" >
+            <td id="nombres">{{ e.nombre }}</td>
+            <td id="apellidos">{{ e.apellido }}</td>
+            {% for p in puesto %}
+                {% if p.id == e.puesto_id %}
+                    <td id="puesto">{{ p.nom_puesto }}</td>
+                    <td id="salbase">{{ p.salBase }}</td>
+                    <td id="he">{{ e.horasExtras }}</td>      
+                    <td id="saldev">{{ e.salDevengado }}</td>
+                {% endif %}
+            {% endfor %}
+            <td>{{e.isss}}</td>
+            <td>{{e.afp}}</td>
+            <td>{{e.renta}}</td>
+            <td id="salpagar">{{e.salPagar}}</td>
+        </tr>
         {% endfor %}
-        <td>{{e.isss}}</td>
-        <td>{{e.afp}}</td>
-        <td>{{e.renta}}</td>
-        <td id="salpagar">{{e.salPagar}}</td>
-    </tr>
-    {% endfor %}
-  </table>
-<br><br><br>
-<form action="" method="POST">{% csrf_token %}
-<label>Horas extras:</label>
-<input type="number" name="horasExtras" id="horasExtras">
-<label>Nombre:</label>
-<input type="text" name="nombre" id="nombre">
-<label>Codigo:</label>
-<input type="text" name="codigo" id="codigo">
-<input type="submit" name="aceptar" id="aceptar" value="Aceptar">
-</form>
+    </table>
+    <br><br><br>
+    <form action="" method="POST">{% csrf_token %}
+        <ul>
+            <li>
+                <label>Horas extras:</label>
+                <input type="number" name="horasExtras" id="horasExtras">
+            </li>
+            <li>
+                <label>Nombre:</label>
+                <input type="text" name="nombre" id="nombre">
+            </li>
+            <li>
+                <label>Codigo:</label>
+                <input type="text" name="codigo" id="codigo">
+            </li>
+            <li>
+                <input type="submit" name="aceptar" id="aceptar" value="Aceptar">
+            </li>
+        </ul>
+    </form>
 {% endblock %}

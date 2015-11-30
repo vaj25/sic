@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block static %}
+    <link rel="stylesheet" href="../static/css/tabla.css">
+{% endblock %}
+
 {% block titulo %}
 Acerca De
 {% endblock %}
@@ -8,5 +12,36 @@ Acerca De
   {% include 'menu.html' %}
 {% endblock %}
 {% block contenido %}
-
+    <table>
+        <tr>
+            <th>Apellidos</th>
+            <th>Nombres</th>
+            <th>Carnet</th>
+        </tr>
+        <tr>
+            <td>Herrera Criollo</td>
+            <td>Moisés Daniel</td>
+            <td>HC12010</td>
+        </tr>
+        <tr>
+            <td>Jovel Torres</td>
+            <td>Samuel Enrique</td>
+            <td>JT11001</td>
+        </tr>
+        <tr>
+            <td>Osorio Morán</td>
+            <td>José Luis</td>
+            <td>OM13002</td>
+        </tr>
+        <tr>
+            <td>Sánchez Castaneda</td>
+            <td>Vladimir Alberto</td>
+            <td>SC13014</td>
+        </tr>
+        <tr>
+            <td>Tobar  Hernández</td>
+            <td>Pablo Javier</td>
+            <td>TH06008</td>
+        </tr>
+    </table>
 {% endblock %}
