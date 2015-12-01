@@ -374,6 +374,7 @@ def ajustes(request):
     c=Cuenta.objects.order_by('tipoCuenta_id')
     tm1=TipoMonto.objects.get(id=1)
     tm2=TipoMonto.objects.get(id=2)
+    #balance comprobacion ajustado
     trans = Transaccion.objects.all()
     monto3 = 0
     monto4 = 0

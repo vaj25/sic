@@ -26,30 +26,30 @@
                             {% endfor %}
                         </select>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="number" name="monto" value="">
+                        <input type="number" step="any" name="monto" value="">
                     </div>
                     <div class="fila">
-                        <select name="cuenta1" id="cuenta1" autofocus>
+                        <select name="cuenta1" id="cuenta1" autofocus required="required">
                             <option value="0" >Seleccionar cuenta</option>
                             {% for c in cuentas %}
                                 <option value="{{ c.id }}">{{c.nom_cuenta}}</option>
                             {% endfor %}
                         </select>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="number" name="monto1" value="">
+                        <input type="number" step="any" name="monto1" value="" required="required" >
                     </div>
                 </div>
                 <div class="columna" id="1-cuenta">
                    <h3>Abono</h3>
                     <div class="fila">
-                        <select name="cuenta2" id="cuenta2">
+                        <select name="cuenta2" id="cuenta2" required="required" >
                             <option value="0">Seleccionar cuenta</option>
                             {% for c in cuentas %}
                                 <option value="{{ c.id }}">{{c.nom_cuenta}}</option>
                             {% endfor %}
                         </select>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <input type="number" name="monto2" value="" required="required">
+                        <input type="number" step="any" name="monto2" value="" required="required">
                     </div>
                 </div>
                 <p id="plus" class="boton"><img src="https://maxcdn.icons8.com/windows10/PNG/96/Very_Basic/plus-96.png" title="Plus" width="32"></p>
