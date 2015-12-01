@@ -18,8 +18,7 @@ Ajustes
         <tr>
             <th>Cuenta</th>
             <th colspan="2">Balance de Comprobacion</th>
-            <th colspan="2">Ajustes</th>
-            <th colspan="2">Balance de Comprobacion</th>
+            <th colspan="2">Balance de Comprobacion Ajustado</th>
             <th colspan="2">Estado Resultado</th>
             <th colspan="2">Estado de Capital</th>
             <th colspan="2">Balance General</th>
@@ -36,40 +35,48 @@ Ajustes
             <th>Haber</th>
             <th>Debe</th>
             <th>Haber</th>
-            <th>Debe</th>
-            <th>Haber</th>
         </tr>
         {% for c in comprobacion %}
             <tr>
                 <td>{{c.nombreCuenta}}</td>
                 <td>{{c.haber}}</td>
                 <td>{{c.debe}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <!-- Balance de comprobacion ajustado -->
+                {% for t in transaccion %}
+                    {% for cu in cuenta %}
+                        {% if cu.id == t.cuenta_id %}
+                            {% if cu.nom_cuenta == c.nombreCuenta %}
+                                {% if t.tipoMonto_id == 1 %}
+                                    <td>{{t.monto}}</td>
+                                    <td></td>
+                                {% endif %}
+                                {% if t.tipoMonto_id == 2 %}
+                                    <td></td>
+                                    <td>{{t.monto}}</td>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
                 <!-- Estado de Resultado -->
                 {% for t in transaccion %}
                     {% for r in resultados %}
                         {% if t.cuenta_id == r.id %}
                             {% if r.nom_cuenta == c.nombreCuenta %}
-                                {% if t.cuenta_id == r.id %}
-                                    {% if t.tipoMonto_id == 1 %}
-                                        <td>{{t.monto}}</td>
-                                        <td></td>
-                                    {% endif %}
-                                    {% if t.tipoMonto_id == 2 %}
-                                        <td></td>
-                                        <td>{{t.monto}}</td>
-                                    {% endif %}
+                                {% if t.tipoMonto_id == 1 %}
+                                    <td>{{t.monto}}</td>
+                                    <td></td>
                                 {% endif %}
-                            {% else %}
-                                <td></td>
-                                <td></td>
+                                {% if t.tipoMonto_id == 2 %}
+                                    <td></td>
+                                    <td>{{t.monto}}</td>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
+                <td></td>
+                <td></td>
                 <!-- Estado Capital -->
                 {% for t in transaccion %}
                     {% for ca in capitales %}
@@ -85,13 +92,12 @@ Ajustes
                                         <td>{{t.monto}}</td>
                                     {% endif %}
                                 {% endif %}
-                            {% else %}
-                                <td></td>
-                                <td></td>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
                 {% endfor %}
+                <td></td>
+                <td></td>
                 <!-- Balance genral -->
                 {% for t in transaccion %}
                     {% for a in activos %}
@@ -105,9 +111,6 @@ Ajustes
                                     <td></td>
                                     <td>{{t.monto}}</td>
                                 {% endif %}
-                            {% else %}
-                                <td></td>
-                                <td></td>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -122,9 +125,6 @@ Ajustes
                                     <td></td>
                                     <td>{{t.monto}}</td>
                                 {% endif %}
-                            {% else %}
-                                <td></td>
-                                <td></td>
                             {% endif %}
                         {% endif %}
                     {% endfor %}
@@ -133,8 +133,6 @@ Ajustes
         {% endfor %}
         <tr>
             <td>Utilidad</td>
-            <td></td>
-            <td></td>
             <td></td>
             <td></td>
             <td></td>
@@ -162,8 +160,6 @@ Ajustes
             <td></td>
             <td></td>
             <td></td>
-            <td></td>
-            <td></td>
             {% if haberca == 1 %}
                 <td></td>
                 <td>{{cap}}</td>
@@ -181,8 +177,6 @@ Ajustes
             <td><strong>Total</strong></td>
             <td><strong>{{m1}}</strong></td>
             <td><strong>{{m2}}</strong></td>
-            <td><strong></strong></td>
-            <td><strong></strong></td>
             <td><strong>{{m3}}</strong></td>
             <td><strong>{{m4}}</strong></td>
             <td><strong></strong></td>

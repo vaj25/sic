@@ -26,3 +26,7 @@ caption {
 .empleado {
     cursor: default ;
 }
+
+.logo {
+    border: 0px ;
+}

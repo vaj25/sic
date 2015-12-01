@@ -15,6 +15,7 @@ util=0
 haber=0
 capContable=0
 user = User()
+cerrar = 0
 # Create your views here.
 @login_required(login_url='/ingresar')
 def inicio(request):
@@ -356,9 +357,13 @@ def libroDiario(request):
 
 @login_required(login_url='/ingresar')
 def ajustes(request):
-    #global user
-    #if user.has_perm('contable.add_estadoperiodo') == False:
-        #return render(request ,'error.html',{'mensaje':"No tiene permisos"})
+    global user
+    global cerrar
+    if user.has_perm('contable.add_estadoperiodo') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link' : "/index"})
+    if cerrar == 0:
+        return render(request, 'error.html', {'mensaje' : "No se ha cerrado periodo contable", 'link' : "/index"})
+    
     comp=Comprobacion.objects.all()
     monto1=0
     monto2=0
@@ -430,3 +435,9 @@ def ajustes(request):
 @login_required(login_url='/ingresar')
 def acercaDe(request):
     return render_to_response('acercaDe.html')
+
+@login_required(login_url='/ingresar')
+def cerrarPeriodo(request):
+    global cerrar
+    cerrar = 1
+    return render(request, 'error.html', {'mensaje' : "Se ha cerrado periodo contable", 'link' : "/comprobacion"})

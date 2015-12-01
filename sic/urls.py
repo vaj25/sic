@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from contable.views import ingresar,inicio,nuevo_usuario, transaccion, planillaEmpleados,eliminar_emp,comprobacion, resultado, capital,general, libroDiario, ajustes, acercaDe
+from contable.views import ingresar,inicio,nuevo_usuario, transaccion, planillaEmpleados,eliminar_emp,comprobacion, resultado, capital,general, libroDiario, ajustes, acercaDe, cerrarPeriodo
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)) ,
@@ -37,4 +37,5 @@ urlpatterns = [
     url(r'^libroDiario', libroDiario) ,
     url(r'^ajustes', ajustes),
     url(r'^acercaDe', acercaDe),
+    url(r'^cerrarPeriodo', cerrarPeriodo),
 ]
