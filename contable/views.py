@@ -41,7 +41,7 @@ def planillaEmpleados(request):
             emp1.renta=round(emp1.salDevengado*0.0083333,2)
         emp1.salPagar = round(emp1.salDevengado-emp1.isss-emp1.afp-emp1.renta,2)
         emp1.save()
-    return render(request, 'planilla-empleados.html', {'empleado':e, 'puesto':p})
+    return render(request, 'planilla-empleados.html', {'empleado':e, 'puesto':p, 'num' : len(e)})
 
 @login_required(login_url='/ingresar')
 def catalogoCuentas(request):

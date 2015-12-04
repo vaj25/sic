@@ -23,11 +23,25 @@ $('#less').click(function(){
     $('#counter').attr({'value' : j}) ;
 }) ;
 
-function obtenerEmpleado(id) {
+$('.empleado').dblclick(function(){
+    for (var i = 1; i<=3; i++) {
+        $('#'+i).addClass('no_mostrar') ;
+        $('#nombre').attr({'value' : ''}) ;
+        $('#horasExtras').attr({'value' : ''}) ;
+        $('#codigo').attr({'value' : ''}) ;
+    }
+}) ;
+
+function obtenerEmpleado(id, num) {
+        for (var i = 1; i<=num; i++) {
+            $('#'+i).addClass('no_mostrar') ;
+        }
         $('#nombre').attr({'value' : $('#'+id).find('#nombres').text()}) ;
         $('#horasExtras').attr({'value': $('#'+id).find('#he').text()}) ;
         $('#codigo').attr({'value' : id}) ;
+        $('#'+id).removeClass('no_mostrar') ;
         $('#'+id).addClass('mostrar') ;
 }
+
 
 //$('#form2').clone().appendTo('#'+i+'-cuenta') ;

@@ -1,5 +1,9 @@
 
-div{
+body {
+    margin-top: 1%;
+}
+
+div {
     background: rgb(247, 247, 247) ;
     padding: 5px ;
     margin: auto;

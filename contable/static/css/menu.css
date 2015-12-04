@@ -4,19 +4,21 @@
     list-style: none ;
 }
 
-.menu{
-  display: block ;
+.menu {
+    display: block ;
 	position: fixed;
 	z-index: 1000 ;
 	top: 0 ;
 	width: 95.3% ;
-  background: #59afad;
+    background: #59afad;
 	text-align: left ;
 	padding: 0 2em ;
 	margin: 0 ;
-  font-family: 'Slabo 27px', serif ;
+    font-family: 'Slabo 27px', serif ;
 	text-transform: capitalize ;
-  border-bottom: 1px solid black ;
+    font-weight: 600 ;
+    letter-spacing: 0.5px ;
+    border-bottom: 1px solid black ;
 }
 
 .menu > li{

@@ -28,7 +28,7 @@ Planilla Empleados
           <th>Salario a pagar</th>
         </tr>
         {%for e in empleado %}
-        <tr id="{{e.id}}" onclick="obtenerEmpleado({{e.id}})" class="empleado" >
+        <tr id="{{e.id}}" onclick="obtenerEmpleado({{e.id}}, {{num}})" class="empleado" >
             <td id="nombres">{{ e.nombre }}</td>
             <td id="apellidos">{{ e.apellido }}</td>
             {% for p in puesto %}
