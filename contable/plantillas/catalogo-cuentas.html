@@ -15,14 +15,15 @@
 
 <table>
     <tr>
+        <th>Codigo</th>
         <th>Nombre</th>
         <th>Tipo Cuenta</th>
         <th>Monto Cargo</th>
         <th>Monto Abono</th>
-        <th>Saldo</th>
     </tr>
     {% for c in cuentas %}
         <tr>
+            <td>{{c.codigo}}</td>
             <td>{{c.nom_cuenta}}</td>
             {% for t in tipoCuenta %}
                 {% if c.tipoCuenta_id == t.id %}
@@ -31,7 +32,6 @@
             {% endfor %}
             <td>{{c.montoCargo}}</td>
             <td>{{c.montoAbono}}</td>
-            <td>{{c.saldo}}</td>
         </tr>
     {% endfor %}
 </table>

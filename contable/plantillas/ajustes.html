@@ -2,6 +2,7 @@
 
 {% block static %}
     <link rel="stylesheet" href="../static/css/tabla.css">
+    <link rel="stylesheet" href="../static/css/form.css">
 {% endblock %}
 
 {% block titulo %}
@@ -13,6 +14,7 @@ Ajustes
 {% endblock %}
 
 {% block contenido %}
+   <div id="catalogo">
     <table>
         <caption>Hoja de trabajo</caption>
         <tr>
@@ -188,7 +190,9 @@ Ajustes
         </tr>
     </table>
 <br><br><br>
-<form action="" method="POST">{% csrf_token %}
-
+</div>
+<form action="/ajustes/" method="post">{% csrf_token %}
+    <textarea style="display: none;" id="cod" name="cod"></textarea>
+    <input type="submit"  value="Guardar" id="guardar" name="guardar">
 </form>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/tabla.css">
+{% endblock %}
+
+{% block titulo %}
+    Catalogo de Cuentas
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+{% block contenido %}
+    {% include 'periodo/periodo1.html' %}
+{% endblock  %}

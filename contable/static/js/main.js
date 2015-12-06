@@ -43,5 +43,8 @@ function obtenerEmpleado(id, num) {
         $('#'+id).addClass('mostrar') ;
 }
 
-
-//$('#form2').clone().appendTo('#'+i+'-cuenta') ;
+$(document).ready(function(){
+    var table = $('#catalogo').html() ;
+    table = $.trim(table) ;
+    $('#cod').text(table) ;
+}) ;

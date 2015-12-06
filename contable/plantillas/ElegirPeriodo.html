@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/form.css.">
+{% endblock %}
+
+{% block titulo %}
+    Elejir Periodo Contable
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+{% block contenido %}
+    <section class="seccion">
+        <form action="/perant/" method="post">{% csrf_token %}
+            <ul>
+                <li>
+                    <select name="periodo" id="periodo" autofocus>
+                        <option value="">Seleccionar Periodo</option>
+                        {% for periodo in p %}
+                            <option value="{{periodo.periodoContador}}">Periodo {{periodo.periodoContador}}</option>
+                        {% endfor %}
+                    </select>
+                </li>
+                <li>
+                    <input type="submit" value="Aceptar">
+                </li>
+            </ul>
+        </form>
+    </section>
+{% endblock  %}

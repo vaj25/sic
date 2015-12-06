@@ -15,8 +15,10 @@ util=0
 haber=0
 capContable=0
 user = User()
-cerrar = 0
+cerrar = EstadoPeriodo()
+
 # Create your views here.
+
 @login_required(login_url='/ingresar')
 def inicio(request):
     global user
@@ -81,6 +83,7 @@ def nuevo_usuario(request):
         formulario=UserCreationForm(request.POST)
         if formulario.is_valid():# and (clave1 == clave2):
             formulario.save()
+            
             return HttpResponseRedirect('/index')
     else:
         formulario=UserCreationForm()
@@ -147,6 +150,18 @@ def ingresar_cuenta(request):
             a.saldo = 0
             s=TipoCuenta.objects.get(id=c)
             a.tipoCuenta = s
+            cod = ''
+            if c == '1':
+                cod = 'A0'
+            elif c == '2':
+                cod = 'P0'
+            elif c == '3':
+                cod = 'C0'
+            elif c == '4':
+                cod = 'R0'
+            
+            cod = cod + str(len(Cuenta.objects.all()) + 1)
+            a.codigo = cod
             a.montoCargo=0
             a.montoAbono=0
             a.save()
@@ -243,20 +258,23 @@ def eliminar_emp(request):
 @login_required(login_url='/ingresar')
 def comprobacion(request):
     global user
+    
     if user.has_perm('contable.add_comprobacion') == False:
         return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link':'/index'})
 
+    per = EstadoPeriodo.objects.filter(periodoActivo = True)
+    if len(per) != 0:
+        return render(request ,'error.html',{'mensaje':"No se ha cerrado periodo contable", 'link':'/index'})
+    
     c=Cuenta.objects.order_by('tipoCuenta_id')
     tm1=TipoMonto.objects.get(id=1)
     tm2=TipoMonto.objects.get(id=2)
     trans = Transaccion.objects.all()
     monto1 = 0
     monto2 = 0
-    per=EstadoPeriodo()
-    per.periodo=time.strftime("%x")
-    per.cierre=False
-    per.ajuste=False
-    per.save()
+    p = EstadoPeriodo()
+    for periodo in per:
+        p = periodo
     for t in trans:
         t.delete()
     for cuenta in c:
@@ -281,7 +299,7 @@ def comprobacion(request):
             comp.haber=monto
             comp.debe=0
         tran.save()
-        comp.estadoPeriodo_id=per.id
+        comp.estadoPeriodo_id=p.id
         comprobando=Comprobacion.objects.all()
         for co in comprobando:
             if  comp.nombreCuenta == co.nombreCuenta:
@@ -294,6 +312,9 @@ def comprobacion(request):
 
 @login_required(login_url='/ingresar')
 def resultado(request):
+    per = EstadoPeriodo.objects.filter(periodoActivo = True)
+    if len(per) != 0:
+        return render(request ,'error.html',{'mensaje':"No se ha cerrado periodo contable", 'link':'/index'})
     c=Cuenta.objects.filter(tipoCuenta=4)
     t=Transaccion.objects.all()
     global util
@@ -358,11 +379,24 @@ def libroDiario(request):
 @login_required(login_url='/ingresar')
 def ajustes(request):
     global user
-    global cerrar
+    
     if user.has_perm('contable.add_estadoperiodo') == False:
         return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link' : "/index"})
-    if cerrar == 0:
-        return render(request, 'error.html', {'mensaje' : "No se ha cerrado periodo contable", 'link' : "/index"})
+    
+    per = EstadoPeriodo.objects.filter(periodoActivo = True)
+    if len(per) != 0:
+        return render(request ,'error.html',{'mensaje':"No se ha cerrado periodo contable", 'link':'/index'})
+    
+    if request.method == 'POST':
+        per = len(EstadoPeriodo.objects.all())
+        txt = request.POST['cod']
+        txt2 = "{% extends 'base.html' %}{% block static %}<link               rel='stylesheet'href='../static/css/tabla.css'>{% endblock %}{% block titulo %}Periodo{% endblock %}{% block menu %}{% include 'menu.html' %}{% endblock %}{% block contenido %}"
+        archi = open('contable\plantillas\periodo\periodo'+str(per)+'.html', 'w')
+        archi.write(txt2)
+        archi.write(txt.encode('utf-8'))
+        archi.write("{% endblock %}")
+        archi.close()
+        return HttpResponseRedirect('/index')
     
     comp=Comprobacion.objects.all()
     monto1=0
@@ -374,7 +408,6 @@ def ajustes(request):
     c=Cuenta.objects.order_by('tipoCuenta_id')
     tm1=TipoMonto.objects.get(id=1)
     tm2=TipoMonto.objects.get(id=2)
-    #balance comprobacion ajustado
     trans = Transaccion.objects.all()
     monto3 = 0
     monto4 = 0
@@ -430,7 +463,7 @@ def ajustes(request):
         monto6=monto6-cuenta2.saldo
     monto6=monto6+capContable
 
-    return render(request,'ajustes.html', {'transaccion':trans,'cuenta':c, 'comprobacion':comp,'cuenta':c, 'm1': monto1, 'm2': monto2,'m3':monto3,'m4':monto4,'resultados':resultados,'saldo' : utilidad,'habere' :habere, 'capitales':capitales,'haberca':haberca,'cap':capContable,'activos':c1,'pasivos':c2,'cargo':monto5,'abono':monto6,})
+    return render(request,'ajustes.html', {'transaccion':trans,'cuenta':c, 'comprobacion':comp,'cuenta':c, 'm1': monto1, 'm2': monto2,'m3':monto3,'m4':monto4,'resultados':resultados,'saldo' : utilidad,'habere' :habere, 'capitales':capitales,'haberca':haberca,'cap':capContable,'activos':c1,'pasivos':c2,'cargo':monto5,'abono':monto6})
 
 
 @login_required(login_url='/ingresar')
@@ -440,5 +473,112 @@ def acercaDe(request):
 @login_required(login_url='/ingresar')
 def cerrarPeriodo(request):
     global cerrar
-    cerrar = 1
+    per = EstadoPeriodo()
+    co=EstadoPeriodo.objects.all()
+    for estado in co:
+        if  estado.periodoActivo == True:
+            per = estado
+            per.periodoActivo = False
+            per.cierre = True
+    per.save()
+    
     return render(request, 'error.html', {'mensaje' : "Se ha cerrado periodo contable", 'link' : "/comprobacion"})
+
+
+#def registrarUsuario(request):
+#    if request.method=='POST':
+#        usuario=User()
+#        group = user_group()
+#        usuario.username = request.POST['nombre']
+#        usuario.password = request.POST['pass']
+#        usuario.email = request.POST['email']
+#        usuario.is_active = '1'
+#        group.
+        
+    
+def costos(request):
+    
+    per = EstadoPeriodo.objects.filter(periodoActivo = True)
+    if len(per) != 0:
+        return render(request ,'error.html',{'mensaje':"No se ha cerrado periodo contable", 'link':'/index'})
+    
+    planilla=0.0
+    sal=0.0
+    c=Cuenta.objects.filter(id=3)
+    p=Empleado.objects.all()
+    for cu in c:
+        sal=cu.saldo
+    for emp in p:
+        planilla=planilla+emp.salPagar
+        
+    f1=sal*0.6
+    f2=sal*0.4
+    s1=planilla*0.2
+    s2=planilla*0.3
+    s3=planilla*0.5
+    t1=sal*0.1
+    t2=sal*0.2
+    t3=sal*0.7
+    a1=30*0.75
+    a2=30*0.25
+    
+    cuent=Cuenta.objects.all()
+
+    sal2=0
+    sal3=0
+    sal4=0
+    sal5=0
+    for ct in cuent:
+        if ct.id==10:
+            sal2=ct.saldo
+        elif ct.id==17:
+            sal3=ct.saldo
+        elif ct.id==16:
+            sal4=ct.saldo
+        elif ct.id==12:
+            sal5=ct.saldo
+    b1=(sal2/sal)*f1
+    b2=(sal2/sal)*f2
+    d1=(sal3/planilla)*s1
+    d2=(sal3/planilla)*s2
+    d3=(sal3/planilla)*s3
+    e1=(sal4/sal)*t1
+    e2=(sal4/sal)*t2
+    e3=(sal4/sal)*t3
+    g1=(sal5/30)*a1
+    g2=(sal5/30)*a2
+    
+    m1=b1+d1+e1+g1
+    m2=d2+e2
+    m3=b2+d3+e3+g2
+    
+    m= m1+m3+m2 
+    
+    return render(request, 'costos.html',{'planilla':planilla,'cuenta':sal,'f1':f1,'f2':f2,'s1':s1,'s2':s2,'s3':s3,'t1':t1,'t2':t2,'t3':t3,'a1':a1,'a2':a2,'sal2':sal2,'sal3':sal3,'sal4':sal4,'sal5':sal5,'b1':b1,'b2':b2,'d1':d1,'d2':d2,'d3':d3,'e1':e1,'e2':e2,'e3':e3,'g1':g1,'g2':g2, 'm1':m1, 'm2':m2, 'm3':m3, 'm': m})
+    
+def peranteriores(request):
+    p = EstadoPeriodo.objects.filter(periodoActivo = False  )
+    if request.method == 'POST':
+        per = request.POST['periodo']
+        url = 'periodo/periodo'+ per +'.html'
+        return  render(request,url,{})
+    else:
+        return render(request,'ElegirPeriodo.html', {'p':p})
+
+def iniciarPeriodo(request):
+    global cerrar
+    
+    co=EstadoPeriodo.objects.all()
+    per = EstadoPeriodo()
+    per.periodoContador=len(co)+1
+    per.periodo = time.strftime("%x")
+    per.cierre = False
+    per.ajuste = False
+    
+    for estado in co:
+        if  estado.periodoActivo == True:
+            per.id=estado.id 
+    per.save()
+    cerrar = per
+    return render(request, 'error.html', {'mensaje' : "Se ha inciado periodo contable", 'link' : "/index"})      
+            

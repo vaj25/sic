@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+
+{% block static %}
+    <link rel="stylesheet" href="../static/css/tabla.css">
+{% endblock %}
+
+{% block titulo %}
+Contabilidad de Costos
+{% endblock %}
+
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+{% block contenido %}
+
+    <table>
+       <tr>
+            <th rowspan="2">Recurso</th>
+            <th colspan="2">Conductor</th>
+            <th colspan="3">Actividades</th>
+       </tr>
+        <tr>
+            
+            <th>Conductores</th>
+            <th>Total</th>
+            <th>Consulta</th>
+            <th>Limpieza</th>
+            <th>Administraci&oacute;n</th>
+        </tr>
+        
+        <tr>
+            <td>Depreciaci&oacute;n</td>
+            <td>Costo de Mobiliario y Equipo</td>
+            <td>{{cuenta}}</td>
+            <td>{{f1}}</td>
+            <td>--</td>
+            <td>{{f2}}</td>
+        </tr>
+        <tr>
+            <td>Insumos</td>
+            <td>Salarios</td>
+            <td>{{planilla}}</td>
+            <td>{{s1}}</td>
+            <td>{{s2}}</td>
+            <td>{{s3}}</td>
+        </tr>
+        <tr>
+            <td>Servicios Basicos</td>
+            <td>Costo de Mobiliario y Equipo</td>
+            <td>{{cuenta}}</td>
+            <td>{{t1}}</td>
+            <td>{{t2}}</td>
+            <td>{{t3}}</td>
+        </tr>
+        <tr>
+            <td>Alquiler</td>
+            <td>Area</td>
+            <td>30</td>
+            <td>{{a1}}</td>
+            <td>--</td>
+            <td>{{a2}}</td>
+        </tr>
+    </table>
+    <br><br>
+    <table>
+        <tr>
+            <th>CI</th>
+            <th>Total CI</th>
+            <th>Consulta</th>
+            <th>Limpieza</th>
+            <th>Administraci&oacute;n</th>
+        </tr>
+        
+        <tr>
+            <td>Depreciaci&oacute;n</td>
+            <td>{{sal2}}</td>
+            <td>{{b1}}</td>
+            <td></td>
+            <td>{{b2}}</td>
+        </tr>
+        <tr>
+            <td>Insumos</td>
+            <td>{{sal3}}</td>
+            <td>{{d1}}</td>
+            <td>{{d2}}</td>
+            <td>{{d3}}</td>
+        </tr>
+        <tr>
+            <td>Servicios Basicos</td>
+            <td>{{sal4}}</td>
+            <td>{{e1}}</td>
+            <td>{{e2}}</td>
+            <td>{{e3}}</td>
+        </tr>
+        <tr>
+            <td>Alquiler</td>
+            <td>{{sal5}}</td>
+            <td>{{g1}}</td>
+            <td></td>
+            <td>{{g2}}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td></td>
+            <td>{{m1}}</td>
+            <td>{{m2}}</td>
+            <td>{{m3}}</td>
+        </tr>
+    </table>
+    
+    <br><br>
+    <table>
+        <tr>
+            <th>CI</th>
+            <th>Total CI</th>
+            <th>Consulta</th>
+        </tr>
+        <tr>
+            <td>Depreciaci&oacute;n</td>
+            <td>{{sal2}}</td>
+            <td>{{b1}}</td>
+        </tr>
+        <tr>
+            <td>Insumos</td>
+            <td>{{sal3}}</td>
+            <td>{{d1}}</td>
+        </tr>
+        <tr>
+            <td>Servicios Basicos</td>
+            <td>{{sal4}}</td>
+            <td>{{e1}}</td>
+        </tr>
+        <tr>
+            <td>Alquiler</td>
+            <td>{{sal5}}</td>
+            <td>{{g1}}</td>
+        </tr>
+        <tr>
+            <td>Limpieza</td>
+            <td>{{m2}}</td>
+            <td>{{m2}}</td>
+        </tr>
+        <tr>
+            <td>Administraci&oacute;n</td>
+            <td>{{m3}}</td>
+            <td>{{m3}}</td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td></td>
+            <td>{{m}}</td>
+        </tr>
+    </table>
+{% endblock %}
