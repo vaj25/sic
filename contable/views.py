@@ -581,4 +581,13 @@ def iniciarPeriodo(request):
     per.save()
     cerrar = per
     return render(request, 'error.html', {'mensaje' : "Se ha inciado periodo contable", 'link' : "/index"})      
-            
+def ingresarUsuario(request):
+    if request.method == 'POST':
+        if request.POST['contrasena'] == request.POST['contrasena2']:
+            user = User.objects.create_user(username=request.POST['nombre'], email=request.POST['email'], password=request.POST['contrasena'])
+            group = Group.objects.get(id = request.POST['permiso'])
+            user.groups.add(group)
+            user.save()
+        else:
+             return render(request, 'error.html', {'mensaje' : "Las contrase&ntilde;as no coinciden", 'link' : "/index"})
+    return render(request, 'gest-usuario.html')

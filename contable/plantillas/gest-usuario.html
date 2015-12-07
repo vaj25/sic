@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block static %}
+    <link rel="stylesheet" href="../static/css/form.css">
+{% endblock %}
+
+{% block titulo %}
+Ingresar Usuario
+{% endblock %}
+ 
+{% block menu %}
+  {% include 'menu.html' %}
+{% endblock %}
+
+{% block contenido %}
+    <form action="/ingresarUsuario/" method="post">{% csrf_token %}
+        <ul>
+            <li>
+                <label for="">Nombre Usuario:</label>
+                <input type="text" required="required" name="nombre" id="nombre">
+            </li>
+            <li>
+                <label for="">Email:</label>
+                <input type="text" required="required" name="email" id="email">
+            </li>
+            <li>
+                <label for="">Contrase&ntilde;a:</label>
+                <input type="text" required="required" name="contrasena" id="contrasena">
+            </li>
+            <li>
+                <label for="">Contrase&ntilde;a (Confirmaci&oacute;n) :</label>
+                <input type="text" required="required" name="contrasena2" id="contrasena2">
+            </li>
+            <li>  
+                <label>Permisos:</label> 
+                <select name="permiso" id="permiso">
+                    <option value="0">Seleccionar</option>
+                    <option value="1">Administrado</option>
+                    <option value="2">Usuario</option>
+                    <option value="3">Contador</option>
+                </select>
+            </li>
+            <li>
+                <input type="submit" name="submit" value="Registrar">
+            </li>
+            
+        </ul>
+    </form>
+{% endblock %}
