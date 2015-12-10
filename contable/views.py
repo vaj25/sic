@@ -259,9 +259,6 @@ def eliminar_emp(request):
 def comprobacion(request):
     global user
     
-    if user.has_perm('contable.add_comprobacion') == False:
-        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link':'/index'})
-
     per = EstadoPeriodo.objects.filter(periodoActivo = True)
     if len(per) != 0:
         return render(request ,'error.html',{'mensaje':"No se ha cerrado periodo contable", 'link':'/index'})
@@ -299,7 +296,7 @@ def comprobacion(request):
             comp.haber=monto
             comp.debe=0
         tran.save()
-        comp.estadoPeriodo_id=p.id
+        comp.estadoPeriodo_id=28
         comprobando=Comprobacion.objects.all()
         for co in comprobando:
             if  comp.nombreCuenta == co.nombreCuenta:
@@ -308,6 +305,7 @@ def comprobacion(request):
                 comp.haber=co.haber
                 comp.id=co.id
         comp.save()
+        trans = Transaccion.objects.all()
     return render(request, 'comprobacion.html', {'transaccion':trans,'cuenta':c, 'm1': monto1, 'm2': monto2})
 
 @login_required(login_url='/ingresar')
@@ -472,6 +470,10 @@ def acercaDe(request):
 
 @login_required(login_url='/ingresar')
 def cerrarPeriodo(request):
+    global user
+    
+    if user.has_perm('contable.add_estadoperiodo') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link' : "/index"})
     global cerrar
     per = EstadoPeriodo()
     co=EstadoPeriodo.objects.all()
@@ -482,7 +484,7 @@ def cerrarPeriodo(request):
             per.cierre = True
     per.save()
     
-    return render(request, 'error.html', {'mensaje' : "Se ha cerrado periodo contable", 'link' : "/comprobacion"})
+    return render(request, 'error.html', {'mensaje' : "Se ha cerrado periodo contable", 'link' : "/index"})
 
 
 #def registrarUsuario(request):
@@ -495,12 +497,10 @@ def cerrarPeriodo(request):
 #        usuario.is_active = '1'
 #        group.
         
-    
+@login_required(login_url='/ingresar')
 def costos(request):
     
-    per = EstadoPeriodo.objects.filter(periodoActivo = True)
-    if len(per) != 0:
-        return render(request ,'error.html',{'mensaje':"No se ha cerrado periodo contable", 'link':'/index'})
+    
     
     planilla=0.0
     sal=0.0
@@ -556,7 +556,9 @@ def costos(request):
     
     return render(request, 'costos.html',{'planilla':planilla,'cuenta':sal,'f1':f1,'f2':f2,'s1':s1,'s2':s2,'s3':s3,'t1':t1,'t2':t2,'t3':t3,'a1':a1,'a2':a2,'sal2':sal2,'sal3':sal3,'sal4':sal4,'sal5':sal5,'b1':b1,'b2':b2,'d1':d1,'d2':d2,'d3':d3,'e1':e1,'e2':e2,'e3':e3,'g1':g1,'g2':g2, 'm1':m1, 'm2':m2, 'm3':m3, 'm': m})
     
+@login_required(login_url='/ingresar')
 def peranteriores(request):
+    
     p = EstadoPeriodo.objects.filter(periodoActivo = False  )
     if request.method == 'POST':
         per = request.POST['periodo']
@@ -565,6 +567,7 @@ def peranteriores(request):
     else:
         return render(request,'ElegirPeriodo.html', {'p':p})
 
+@login_required(login_url='/ingresar')
 def iniciarPeriodo(request):
     global cerrar
     
@@ -581,7 +584,14 @@ def iniciarPeriodo(request):
     per.save()
     cerrar = per
     return render(request, 'error.html', {'mensaje' : "Se ha inciado periodo contable", 'link' : "/index"})      
+@login_required(login_url='/ingresar')
 def ingresarUsuario(request):
+    
+    global user
+    
+    if user.has_perm('contable.add_empleado') == False:
+        return render(request ,'error.html',{'mensaje':"No tiene permisos", 'link' : "/index"})
+    
     if request.method == 'POST':
         if request.POST['contrasena'] == request.POST['contrasena2']:
             user = User.objects.create_user(username=request.POST['nombre'], email=request.POST['email'], password=request.POST['contrasena'])

@@ -12,7 +12,7 @@ Ingresar Usuario
 {% endblock %}
 
 {% block contenido %}
-    <form action="/ingresarUsuario/" method="post">{% csrf_token %}
+    <form action="/ingresarUsuario/" method="post" autocomplete="on">{% csrf_token %}
         <ul>
             <li>
                 <label for="">Nombre Usuario:</label>
@@ -24,11 +24,11 @@ Ingresar Usuario
             </li>
             <li>
                 <label for="">Contrase&ntilde;a:</label>
-                <input type="text" required="required" name="contrasena" id="contrasena">
+                <input type="password" required="required" name="contrasena" id="contrasena">
             </li>
             <li>
                 <label for="">Contrase&ntilde;a (Confirmaci&oacute;n) :</label>
-                <input type="text" required="required" name="contrasena2" id="contrasena2">
+                <input type="password" required="required" name="contrasena2" id="contrasena2">
             </li>
             <li>  
                 <label>Permisos:</label> 

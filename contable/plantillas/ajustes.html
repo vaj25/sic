@@ -2,6 +2,7 @@
 
 {% block static %}
     <link rel="stylesheet" href="../static/css/tabla.css">
+    <link rel="stylesheet" href="../static/css/form.css">
 {% endblock %}
 
 {% block titulo %}
@@ -188,7 +189,7 @@ Ajustes
             <td><strong>{{abono}}</strong></td>
         </tr>
     </table>
-<br><br><br>
+<br>
 </div>
 <form action="/ajustes/" method="post">{% csrf_token %}
     <textarea style="display: none;" id="cod" name="cod"></textarea>
